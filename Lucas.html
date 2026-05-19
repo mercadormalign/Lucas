@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercado Negro</title>
+    <style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+</style>
+</head>
+<body> 
+ <h1>Loja super mega legal &lt; de animais exoticos</h1>
+ <h6>Cobra oxitona</h6>
+ <p style="color: rgb(32, 82, 179)" > <u>Pinguim</u> africano</p>
+ <hr> 
+ <div class="minha-imagem">
+  <img src="https://i0.statig.com.br/bancodeimagens/8e/2o/ba/8e2oba1ds7baoir09iwc8bxzv.jpg" alt="um porco formiga" width="900" height="500">
+ <br><a href="https://institutolibio.org.br/silvestreouexotico/">Curiosidades sobre animais exoticos</a>
+ <ol>
+    <li>Jararé</li>
+    <li>Tamaindua</li>
+    <li>Fomiga</li>
+ </ol>
+ <form id="meuFormulario">
+    <label>Que animal voce pretende comprar</label><br>
+    <br><input type="text" name="Animal" placeholder="Digite Aqui" width="500" > 
+
+    <br><br>
+
+    <input type="text" id="NomeAnimal" placeholder="Nome do animal">
+    <input type="text" id="Animal" placeholder="Animal predileto">
+    <button type="submit">Enviar</button>
+ </form>
+ <img id="minhaLampada" src="https://w3schools.com/js/pic_bulboff.gif" width="100" height="100"   >
+
+ <br><br>
+
+ <button onclick="ligar()">Ligar💡</button>
+ <button onclick="desligar()">Desligar</button>
+ 
+ <hr>
+<h3>Área de Controle: Atualizar ou Apagar</h3>
+
+<label>Quem você quer alterar/apagar?</label>
+<input type="text" id="nomeBusca" placeholder="Digite o nome exato (Ex: Lucas)">
+
+<br><br>
+
+<label>Se for atualizar, qual o NOVO animal?</label>
+<input type="text" id="animalAtualizado" placeholder="Novo Animal">
+
+<br><br>
+<div class="caixa">
+    <h3>1. Fazer um Novo Pedido (POST)</h3>
+    
+    <label>Seu Nome:</label><br>
+    <input type="text" id="campoNome" placeholder="Ex: Lucas"><br>
+    
+    <label>Animal Favorito:</label><br>
+    <input type="text" id="campoAnimal" placeholder="Ex: Fomiga"><br>
+    
+    <button onclick="fazerPedido()">Salvar no Banco (POST)</button>
+  </div>
+
+<button onclick="atualizarPedido()">Atualizar (PATCH)</button>
+<button onclick="apagarPedido()">Apagar (DELETE)</button>
+</body>
+<script>
+  function fazerPedido() {
+      let nomeDigitado = document.getElementById("campoNome").value;
+      let animalDigitado = document.getElementById("campoAnimal").value;
+
+      fetch('https://sheetdb.io/api/v1/239kod6ffaniv', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          nome: nomeDigitado, 
+          animal: animalDigitado 
+        })
+      })
+      .then(resposta => {
+        alert("Sucesso! (POST concluído - Verifique a Planilha)");
+        // Limpa os campos após enviar
+        document.getElementById("campoNome").value = "";
+        document.getElementById("campoAnimal").value = "";
+      });
+    }
+  var form = document.getElementById('meuFormulario');
+  
+  form.addEventListener("submit", e => {
+    e.preventDefault(); // Impede a página de recarregar
+    
+    // Fazendo o POST (Enviando o pedido para o garçom)
+    fetch('https://sheetdb.io/api/v1/239kod6ffaniv', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "nome": document.getElementById("nomeAluno").value,
+        "animal": document.getElementById("animalAlvo").value
+      })
+    })
+    .then(response => response.json())
+    .then(dados => {
+        alert("Sucesso! Olhe a sua planilha agora!");
+    });
+  });
+  function ligar() {
+    document.getElementById("minhaLampada").src = "https://www.w3schools.com/js/pic_bulbon.gif" ;
+  }
+  
+  function desligar() {
+   document.getElementById("minhaLampada").src = "https://www.w3schools.com/js/pic_bulboff.gif" ;
+  }
+  var form = document.getElementById('meuFormulario');
+  
+  form.addEventListener("submit", e => {
+    e.preventDefault(); // Impede a página de recarregar
+    
+    // Fazendo o POST (Enviando o pedido para o garçom)
+    fetch('https://sheetdb.io/api/v1/239kod6ffaniv', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "nome": document.getElementById("nomeAluno").value,
+        "animal": document.getElementById("animalAlvo").value
+      })
+    })
+    .then(response => response.json())
+    .then(dados => {
+        alert("Sucesso! Olhe a sua planilha agora!");
+    });
+  });
+  function atualizarPedido() {
+  // 1. Pegamos quem queremos mudar e qual a comida nova
+  let nome = document.getElementById("nomeBusca").value;
+  let animalNovo = document.getElementById("animalAtualizado").value;
+  
+  // 2. Colocamos o nome direto na URL para o SheetDB achar a linha!
+  let url = `https://sheetdb.io/api/v1/239kod6ffaniv/nome/${nome}`;
+  
+  // 3. Arrumamos a bandeja do garçom com a nova comida
+  let dadosNovos = {
+    animal: animalNovo
+  };
+
+  // 4. Chamamos o garçom passando o método PATCH
+  fetch(url, {
+    method: "PATCH", 
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dadosNovos) // O corpo da mensagem escondido
+  })
+  .then(resposta => {
+    alert("Prato atualizado com sucesso!");
+  });
+}
+
+function apagarPedido() {
+  // 1. Pegamos o nome de quem queremos apagar da planilha
+  let nome = document.getElementById("nomeBusca").value;
+  
+  // 2. O link exato apontando para a pessoa
+  let url = `https://sheetdb.io/api/v1/239kod6ffaniv/nome/${nome}`;
+
+  // 3. Chamamos o garçom e apenas gritamos: DELETE!
+  fetch(url, {
+    method: "DELETE"
+  })
+  .then(resposta => {
+    alert("Pedido cancelado e apagado da planilha!");
+  });
+}
+</script>
+
+</html>
